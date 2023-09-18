@@ -1,4 +1,5 @@
-/* A builder class to simplify the task of creating HTML elements. */
+
+/* A builder class to simplify the task of creating HTML elements */
 class ElementCreator {
     constructor(tag) {
         this.element = document.createElement(tag);
@@ -59,7 +60,7 @@ class ElementCreator {
    available resources from the server (see end of this file).
    You can (and probably should) rename this class to match with whatever name you
    used for your resource on the server-side.
-*/
+ */
 class BookDiary {
 
     /* If you want to know more about this form of getters, read this:
@@ -74,9 +75,9 @@ function add(resource, sibling) {
 
     /* Task 2: Instead of the name property of the example resource, add the properties of
        your resource to the DOM. If you do not have the name property in your resource,
-       start by removing the h2 element that currently represents the name. For the
+       start by removing the h2 element that currently represents the name. For the 
        properties of your object you can use whatever html element you feel represents
-       your data best, e.g., h2, paragraphs, spans, ...
+       your data best, e.g., h2, paragraphs, spans, ... 
        Also, you don't have to use the ElementCreator if you don't want to and add the
        elements manually. */
 
@@ -136,7 +137,7 @@ function edit(resource) {
        The label and input element used here are just an example of how you can edit a
        property of a resource, in the case of our example property name this is a label and an
        input field. f, we assign the input field a unique id attribute to be able to identify
-       it easily later when the user saves the edited data (see Task 4 - Part 2 below).
+       it easily later when the user saves the edited data (see Task 4 - Part 2 below). 
     */
 
     formCreator
@@ -174,7 +175,7 @@ function edit(resource) {
             event.preventDefault();
 
             /* The user saves the resource.
-               Task 4 - Part 2: We manually set the edited values from the input elements to the resource object.
+               Task 4 - Part 2: We manually set the edited values from the input elements to the resource object. 
                Again, this code here is just an example of how the name of our example resource can be obtained
                and set in to the resource. The idea is that you handle your own properties here.
             */
@@ -204,7 +205,7 @@ function edit(resource) {
             checkBoxValue ? resource.isBorrowed = true : resource.isBorrowed = false;
 
             /* Task 4 - Part 3: Call the update endpoint asynchronously. Once the call returns successfully,
-               use the code below to remove the form we used for editing and again render
+               use the code below to remove the form we used for editing and again render 
                the resource in the list.
             */
             fetch(`/api/resources/${resource.id}`, {
@@ -241,7 +242,7 @@ function remove(resource) {
    the server returns to the DOM (Remember, the resource returned by the server is the
     one that contains an id).
  */
-async function create() {
+function create() {
     const book = new BookDiary();
 
     const formCreator = new ElementCreator("form")
@@ -249,7 +250,7 @@ async function create() {
         .append(new ElementCreator("h3").text("Add a new book"));
 
     const fields = [
-        { label: "Name", value: "resource-name", type: "text" },
+        { label: "Name", id: "resource-name", type: "text" },
         { label: "Author", id: "resource-author", type: "text" },
         { label: "Description", id: "resource-description", type: "text" },
         { label: "Rating", id: "resource-rating", type: "number" },
@@ -281,9 +282,9 @@ async function create() {
 
             let finishedDate = document.getElementById("resource-finished").value;
 
-            if (finishedDate.length === 0) {
+            if (finishedDate.length === 0){
                 book.finished = null;
-            } else {
+            }else{
                 var split = finishedDate.split("-");
 
                 var year = split[0];
@@ -291,8 +292,7 @@ async function create() {
                 var day = parseInt(split[2]);
 
                 book.finished = day + "." + month + "." + year;
-            }
-            ;
+            };
 
             const checkBoxValue = document.getElementById("resource-isBorrowed").checked;
             book.isBorrowed = checkBoxValue;
@@ -320,17 +320,12 @@ async function create() {
             }
             // ---------- Reset the input fields ----------//
             fields.forEach(field => {
-                const element = document.getElementById(field.id);
-                if (element) {
-                    element.value = "";
-                    if (field.type === "checkbox") {
-                        element.checked = false;
-                    }
-                } else {
-                    console.error(`Element with ID ${field.id} not found in the DOM.`);
+                document.getElementById(field.id).value = "";
+                if (field.type === "checkbox") {
+                    document.getElementById(field.id).checked = false;
                 }
             });
-        }))
+        }));
 
     //---------- Adding the form to the DOM ----------//
     formCreator.appendTo(document.querySelector('main'));
@@ -342,9 +337,8 @@ document.addEventListener("DOMContentLoaded", function (event) {
     fetch("/api/resources")
         .then(response => response.json())
         .then(resources => {
-            for (const book of resources) {
-                add(Object.assign(new BookDiary(), book));
-
+            for (const resource of resources) {
+                add(Object.assign(new BookDiary(), resource));
             }
         });
 });
