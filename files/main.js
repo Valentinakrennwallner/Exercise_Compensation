@@ -327,9 +327,12 @@ function create() {
             }
             // ---------- Reset the input fields ----------//
             fields.forEach(field => {
-                document.getElementById(field.id).value = "";
-                if (field.type === "checkbox") {
-                    document.getElementById(field.id).checked = false;
+                const inputElement = document.getElementById(field.id);
+                if (inputElement) {
+                    inputElement.value = "";
+                    if (field.type === "checkbox") {
+                        inputElement.checked = false;
+                    }
                 }
             });
         }));
