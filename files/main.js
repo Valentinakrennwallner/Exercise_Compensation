@@ -54,6 +54,13 @@ class ElementCreator {
         parent.replaceChild(this.element, sibling);
         return this.element;
     }
+    image(src, alt) {
+        const imgElement = document.createElement("img");
+        imgElement.src = src;
+        imgElement.alt = alt;
+        this.element.appendChild(imgElement);
+        return this;
+    }
 }
 
 /* A class representing a resource. This class is used per default when receiving the
@@ -84,7 +91,7 @@ function add(resource, sibling) {
     creator
         .append(new ElementCreator("h2").text(resource.name + ' by ' + resource.author))
     creator
-        .append(new ElementCreator("h3").text('Description: ' + resource.description))
+        .append(new ElementCreator("h4").text('Description: ' + resource.description))
     creator
         .append(new ElementCreator("p").text('Rating: ' + resource.rating + '/5'))
     creator
@@ -105,7 +112,7 @@ function add(resource, sibling) {
                or the Fetch API. Once the call returns successfully, remove the resource from
                the DOM using the call to remove(...) below. */
 
-            fetch(`/api/resources/${resource.id}`, {method: "delete",})
+            fetch(`/api/resources/${resource.id}`, {method: "delete"})
                 .then(response => {
                     if(response.ok) {
                         console.log("Book successfully deleted.");
@@ -166,13 +173,13 @@ function edit(resource) {
     formCreator
         .append(new ElementCreator("label").text("Borrowed").with("for", "resource-isBorrowed"))
         .append(new ElementCreator("input").id("resource-isBorrowed").with("type", "checkbox"));
-
+    
 
     /* In the end, we add the code to handle saving the resource on the server and terminating edit mode */
     formCreator
         .append(new ElementCreator("button").text("Speichern").listener('click', (event) => {
             /* Why do we have to prevent the default action? Try commenting this line. */
-            event.preventDefault();
+            event.preventDefault();     /* <--- provide a smoother user experience, without causing full page reload, allows to perform asynchronous requests */
 
             /* The user saves the resource.
                Task 4 - Part 2: We manually set the edited values from the input elements to the resource object. 
@@ -337,8 +344,8 @@ document.addEventListener("DOMContentLoaded", function (event) {
     fetch("/api/resources")
         .then(response => response.json())
         .then(resources => {
-            for (const resource of resources) {
-                add(Object.assign(new BookDiary(), resource));
+            for (const book of resources) {
+                add(Object.assign(new BookDiary(), book));
             }
         });
 });

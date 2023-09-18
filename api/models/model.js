@@ -87,7 +87,7 @@ model.add(new BookDiary(
     608,
     5,
     new Date("2023-08-05").toLocaleDateString(),
-    "false",
+    "false"
 ));
 
 model.add(new BookDiary(
@@ -98,7 +98,7 @@ model.add(new BookDiary(
     368,
     4,
     new Date("2023-07-15").toLocaleDateString(),
-    "false",
+    "false"
 ));
 
 model.add(new BookDiary(
@@ -109,7 +109,7 @@ model.add(new BookDiary(
     384,
     4,
     new Date("2023-09-11").toLocaleDateString(),
-    "false",
+    "false"
 ));
 
 model.add(new BookDiary(
@@ -120,7 +120,7 @@ model.add(new BookDiary(
     320,
     4,
     new Date("2023-04-24").toLocaleDateString(),
-    "false",
+    "false"
 ));
 
 model.add(new BookDiary(
